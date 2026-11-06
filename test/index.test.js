@@ -1,22 +1,96 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { readFileSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import * as host from '../index.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
+const pkgDir = join(__dirname, '..');
 
 test('dsh-mobile host exports correct plugin interface', () => {
   assert.equal(host.name, 'dsh-mobile');
   assert.equal(typeof host.apply, 'function');
+  // Call apply with a dummy context to ensure it runs without throwing
+  assert.doesNotThrow(() => host.apply({}));
 });
 
 test('dsh-mobile client bundle contains viewport lock and keyboard adaptations', () => {
-  const clientCode = readFileSync(join(__dirname, '..', 'client.js'), 'utf8');
+  const clientCode = readFileSync(join(pkgDir, 'client.js'), 'utf8');
+
+  // Module loader registration
+  assert.match(clientCode, /window\.__ModuleLoader__\.load/);
+  assert.match(clientCode, /id:\s*['"]dsh-mobile['"]/);
+
+  // Virtual keyboard interactive-widget adaptation
   assert.match(clientCode, /interactive-widget=resizes-content/);
-  assert.match(clientCode, /overflow:\s*hidden/);
-  assert.match(clientCode, /overscroll-behavior:\s*none/);
-  assert.match(clientCode, /overscroll-behavior-y:\s*contain/);
-  assert.match(clientCode, /visualViewport/);
+
+  // Scroll clamping
+  assert.match(clientCode, /window\.scrollTo\(0,\s*0\)/);
+
+  // Viewport lock CSS
+  assert.match(clientCode, /html,\s*body\s*\{[^}]*overflow:\s*hidden\s*!important/s);
+  assert.match(clientCode, /overscroll-behavior:\s*none\s*!important/);
+
+  // Scroll container overscroll containment
+  assert.match(clientCode, /\[data-conversation-scroll\]\s*\{[^}]*overscroll-behavior-y:\s*contain\s*!important/s);
+
+  // Input zoom prevention (16px font-size)
+  assert.match(clientCode, /font-size:\s*16px\s*!important/);
+});
+
+test('dsh-mobile package.json satisfies bundle manifest guidelines', () => {
+  const pkg = JSON.parse(readFileSync(join(pkgDir, 'package.json'), 'utf8'));
+
+  assert.equal(pkg.name, 'dsh-mobile');
+  assert.equal(pkg.type, 'module');
+  assert.equal(pkg.dsh?.bundle?.patch, './cordis.patch.yml');
+  assert.equal(pkg.dsh?.client?.platform, 'web');
+  assert.equal(pkg.dsh?.client?.immediately, true);
+
+  // Required exports
+  assert.equal(pkg.exports?.['.'], './index.js');
+  assert.equal(pkg.exports?.['./client'], './client.js');
+  assert.equal(pkg.exports?.['./icon'], './icon.svg');
+  assert.equal(pkg.exports?.['./locale/*.json'], './locale/*.json');
+
+  // Files whitelist entries exist on disk
+  for (const file of pkg.files) {
+    if (file.includes('*')) continue;
+    assert.ok(existsSync(join(pkgDir, file)), `File in files whitelist must exist: ${file}`);
+  }
+});
+
+test('dsh-mobile cordis.patch.yml defines correct bundle insertion', () => {
+  const patchContent = readFileSync(join(pkgDir, 'cordis.patch.yml'), 'utf8');
+  assert.match(patchContent, /- insert:/);
+  assert.match(patchContent, /id:\s*dsh-mobile/);
+  assert.match(patchContent, /name:\s*dsh-mobile/);
+});
+
+test('dsh-mobile locale files provide localized metadata', () => {
+  const locales = ['en', 'pt-BR', 'zh'];
+  for (const lang of locales) {
+    const locPath = join(pkgDir, 'locale', `${lang}.json`);
+    assert.ok(existsSync(locPath), `Locale file must exist: ${lang}.json`);
+    const data = JSON.parse(readFileSync(locPath, 'utf8'));
+    assert.ok(data.meta?.title, `Locale ${lang} missing meta.title`);
+    assert.ok(data.meta?.description, `Locale ${lang} missing meta.description`);
+  }
+});
+
+test('dsh-mobile artwork and visual assets exist and are non-empty', () => {
+  const iconSvg = join(pkgDir, 'icon.svg');
+  assert.ok(existsSync(iconSvg), 'icon.svg must exist');
+  assert.ok(readFileSync(iconSvg, 'utf8').includes('<svg'));
+
+  const icon180 = join(pkgDir, 'assets', 'icon-180.png');
+  assert.ok(existsSync(icon180), 'assets/icon-180.png must exist');
+  assert.ok(readFileSync(icon180).length > 100);
+
+  const screenshotLimbo = join(pkgDir, 'assets', 'screenshot-limbo-problem.jpg');
+  assert.ok(existsSync(screenshotLimbo), 'screenshot-limbo-problem.jpg must exist');
+
+  const screenshotMobile = join(pkgDir, 'assets', 'screenshot-mobile-view.jpg');
+  assert.ok(existsSync(screenshotMobile), 'screenshot-mobile-view.jpg must exist');
 });

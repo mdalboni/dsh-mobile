@@ -2,6 +2,12 @@
 
 DeepSeek Harness (DSH) Web GUI 移动端视口锁定、滚动溢出阻断及虚拟键盘交互适配插件。
 
+## 界面预览
+
+| 移动端适配后界面 | 修复前（滚入黑屏空白区域） |
+|:---:|:---:|
+| ![Mobile View](assets/screenshot-mobile-view.jpg) | ![Limbo Problem](assets/screenshot-limbo-problem.jpg) |
+
 ## 功能特性
 
 - **视口锁定**：防止页面（`html, body`）在触摸拖拽时滚入底部黑屏空白区域。

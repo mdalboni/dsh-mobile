@@ -2,6 +2,12 @@
 
 Mobile viewport lock, overscroll containment, and virtual keyboard optimizations for DeepSeek Harness (DSH) Web GUI.
 
+## Screenshots
+
+| Fixed Mobile View | Before Fix (Limbo / Black Void) |
+|:---:|:---:|
+| ![Mobile View](assets/screenshot-mobile-view.jpg) | ![Limbo Problem](assets/screenshot-limbo-problem.jpg) |
+
 ## Features
 
 - **Viewport Lock**: Prevents the page (`html, body`) from scrolling or bouncing into the empty black space below the application.

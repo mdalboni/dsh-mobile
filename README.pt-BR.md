@@ -2,6 +2,12 @@
 
 Trava de viewport, contenção de overscroll e adaptações para teclado virtual no DeepSeek Harness (DSH) Web GUI.
 
+## Capturas de Tela
+
+| Interface Mobile Ajustada | Antes da Correção (Deslize para o Limbo) |
+|:---:|:---:|
+| ![Mobile View](assets/screenshot-mobile-view.jpg) | ![Limbo Problem](assets/screenshot-limbo-problem.jpg) |
+
 ## Recursos
 
 - **Trava de Viewport**: Impede que a página (`html, body`) desloque ou role para o fundo preto vazio abaixo da aplicação.
