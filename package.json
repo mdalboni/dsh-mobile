@@ -1,0 +1,53 @@
+{
+  "name": "dsh-mobile",
+  "version": "1.0.0",
+  "description": "Mobile viewport lock, overscroll containment, and virtual keyboard optimizations for DSH Web GUI",
+  "keywords": [
+    "dsh-plugin",
+    "dsh",
+    "deepseek-harness",
+    "mobile",
+    "viewport",
+    "responsive"
+  ],
+  "author": "Maxwell Dalboni <maxwell@dalboni.land>",
+  "license": "MIT",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mdalboni/dsh-mobile.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mdalboni/dsh-mobile/issues"
+  },
+  "homepage": "https://github.com/mdalboni/dsh-mobile#readme",
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./icon": "./icon.svg",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "cordis.patch.yml",
+    "icon.svg",
+    "locale/*.json",
+    "README.md",
+    "README.pt-BR.md",
+    "README.zh.md",
+    "LICENSE"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true
+    }
+  },
+  "scripts": {
+    "test": "node --test test/index.test.js"
+  }
+}
