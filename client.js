@@ -1,3 +1,16 @@
+let cordisCtx = null;
+
+function collapseSidebar() {
+  const toggle = document.querySelector('button[data-sidebar-toggle]');
+  if (toggle) {
+    toggle.click();
+    return;
+  }
+  if (cordisCtx?.layout?.toggleSidebar) {
+    cordisCtx.layout.toggleSidebar();
+  }
+}
+
 function initMobileAdaptations() {
   if (typeof document === 'undefined') return;
 
@@ -20,7 +33,33 @@ function initMobileAdaptations() {
     }
   }
 
-  // 3. Viewport lock and overscroll containment
+  // 3. Auto-retract sidebar when clicking in conversation area or selecting a session on mobile
+  if (!document.documentElement.dataset.dshMobileDismiss) {
+    document.documentElement.dataset.dshMobileDismiss = 'true';
+    document.addEventListener('click', (event) => {
+      if (typeof window.matchMedia === 'function' && !window.matchMedia('(max-width: 768px)').matches) return;
+      const frame = document.querySelector('[class*="_frame"], [data-dsh-frame]');
+      if (!frame || frame.hasAttribute('data-sidebar-collapsed')) return;
+
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+      if (target.closest('[data-sidebar-opener], [data-sidebar-toggle], [role="dialog"], [role="menu"]')) return;
+
+      const sidebar = frame.querySelector('[class*="_sidebarCol"], [data-pane="sidebar"], aside');
+      if (sidebar && !sidebar.contains(target)) {
+        // ponytail: click outside sidebar auto-collapses; upgrade to swipe gestures if requested
+        collapseSidebar();
+      } else if (target.closest('[class*="sessionRow"], [data-dsh-part="sidebar-entry"], [role="treeitem"]')) {
+        requestAnimationFrame(() => {
+          if (!frame.hasAttribute('data-sidebar-collapsed')) {
+            collapseSidebar();
+          }
+        });
+      }
+    }, true);
+  }
+
+  // 4. Viewport lock and overscroll containment
   const STYLE_ID = 'dsh-mobile-styles';
   if (!document.getElementById(STYLE_ID)) {
     const style = document.createElement('style');
@@ -55,7 +94,8 @@ if (typeof window !== 'undefined' && window.__ModuleLoader__) {
     id: 'dsh-mobile',
     factory() {
       return {
-        apply() {
+        apply(ctx) {
+          cordisCtx = ctx;
           initMobileAdaptations();
         }
       };

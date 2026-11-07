@@ -13,6 +13,7 @@ Trava de viewport, contenção de overscroll e adaptações para teclado virtual
 - **Trava de Viewport**: Impede que a página (`html, body`) desloque ou role para o fundo preto vazio abaixo da aplicação.
 - **Contenção de Overscroll**: Isola gestos de rolagem dentro de `[data-conversation-scroll]` usando `overscroll-behavior-y: contain`.
 - **Adaptação para Teclado Virtual**: Configura `interactive-widget=resizes-content` para que o teclado virtual redimensione o espaço útil em vez de deslocar a tela inteira.
+- **Auto-recolhimento da Barra Lateral**: Recolhe automaticamente o menu lateral ao tocar na área de mensagens ou ao selecionar uma conversa.
 - **Prevenção de Zoom Indesejado**: Aplica tamanho mínimo de fonte de `16px` em campos de texto no mobile para evitar zoom automático no iOS/Android.
 
 ## Instalação

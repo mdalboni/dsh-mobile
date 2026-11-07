@@ -15,7 +15,7 @@ test('dsh-mobile host exports correct plugin interface', () => {
   assert.doesNotThrow(() => host.apply({}));
 });
 
-test('dsh-mobile client bundle contains viewport lock and keyboard adaptations', () => {
+test('dsh-mobile client bundle contains viewport lock, keyboard, and sidebar auto-retract adaptations', () => {
   const clientCode = readFileSync(join(pkgDir, 'client.js'), 'utf8');
 
   // Module loader registration
@@ -37,6 +37,12 @@ test('dsh-mobile client bundle contains viewport lock and keyboard adaptations',
 
   // Input zoom prevention (16px font-size)
   assert.match(clientCode, /font-size:\s*16px\s*!important/);
+
+  // Sidebar auto-retract logic on mobile
+  assert.match(clientCode, /data-sidebar-collapsed/);
+  assert.match(clientCode, /button\[data-sidebar-toggle\]/);
+  assert.match(clientCode, /toggleSidebar/);
+  assert.match(clientCode, /max-width:\s*768px/);
 });
 
 test('dsh-mobile package.json satisfies bundle manifest guidelines', () => {

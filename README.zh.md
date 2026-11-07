@@ -13,6 +13,7 @@ DeepSeek Harness (DSH) Web GUI 移动端视口锁定、滚动溢出阻断及虚�
 - **视口锁定**：防止页面（`html, body`）在触摸拖拽时滚入底部黑屏空白区域。
 - **滚动阻断**：使用 `overscroll-behavior-y: contain` 将滚动锁定在会话容器内。
 - **虚拟键盘交互适配**：配置 `interactive-widget=resizes-content`，键盘弹出时自动重塑视口高度。
+- **侧边栏自动收起**：在移动端点击会话内容区域或选择会话时自动收起侧边栏。
 - **防止输入框自动放大**：移动端输入框保持 `16px` 字号，防止 iOS/Android 聚焦缩放。
 
 ## 安装方式

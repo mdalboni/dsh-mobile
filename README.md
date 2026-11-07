@@ -13,6 +13,7 @@ Mobile viewport lock, overscroll containment, and virtual keyboard optimizations
 - **Viewport Lock**: Prevents the page (`html, body`) from scrolling or bouncing into the empty black space below the application.
 - **Overscroll Containment**: Keeps scroll gestures inside `[data-conversation-scroll]` with `overscroll-behavior-y: contain`.
 - **Virtual Keyboard Resizing**: Configures `interactive-widget=resizes-content` so virtual keyboards resize the viewport cleanly instead of panning the page.
+- **Sidebar Auto-Retraction**: Automatically collapses the sidebar when tapping anywhere in the conversation area or selecting a session row on mobile.
 - **Input Zoom Prevention**: Enforces a minimum `16px` font-size on text inputs for mobile viewports to prevent iOS and Android auto-zoom.
 
 ## Installation
