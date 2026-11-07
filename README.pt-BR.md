@@ -4,9 +4,9 @@ Trava de viewport, contenção de overscroll e adaptações para teclado virtual
 
 ## Capturas de Tela
 
-| Interface Mobile Ajustada | Antes da Correção (Deslize para o Limbo) |
-|:---:|:---:|
-| ![Mobile View](assets/screenshot-mobile-view.jpg) | ![Limbo Problem](assets/screenshot-limbo-problem.jpg) |
+| Visualização do Chat | Teclado Virtual Aberto | Barra Lateral Aberta |
+|:---:|:---:|:---:|
+| ![Visualização do Chat](assets/screenshot-chat-view.jpg) | ![Teclado Virtual](assets/screenshot-keyboard-open.jpg) | ![Barra Lateral](assets/screenshot-sidebar-open.jpg) |
 
 ## Recursos
 

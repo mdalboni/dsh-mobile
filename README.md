@@ -4,9 +4,9 @@ Mobile viewport lock, overscroll containment, and virtual keyboard optimizations
 
 ## Screenshots
 
-| Fixed Mobile View | Before Fix (Limbo / Black Void) |
-|:---:|:---:|
-| ![Mobile View](assets/screenshot-mobile-view.jpg) | ![Limbo Problem](assets/screenshot-limbo-problem.jpg) |
+| Mobile Chat View | Virtual Keyboard Open | Sidebar Open |
+|:---:|:---:|:---:|
+| ![Mobile Chat View](assets/screenshot-chat-view.jpg) | ![Virtual Keyboard](assets/screenshot-keyboard-open.jpg) | ![Sidebar Open](assets/screenshot-sidebar-open.jpg) |
 
 ## Features
 

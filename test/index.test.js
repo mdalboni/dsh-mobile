@@ -85,7 +85,7 @@ test('dsh-mobile locale files provide localized metadata', () => {
   }
 });
 
-test('dsh-mobile artwork and visual assets exist and are non-empty', () => {
+test('dsh-mobile artwork, screenshots, and visual assets exist and are valid', () => {
   const iconSvg = join(pkgDir, 'icon.svg');
   assert.ok(existsSync(iconSvg), 'icon.svg must exist');
   assert.ok(readFileSync(iconSvg, 'utf8').includes('<svg'));
@@ -94,9 +94,33 @@ test('dsh-mobile artwork and visual assets exist and are non-empty', () => {
   assert.ok(existsSync(icon180), 'assets/icon-180.png must exist');
   assert.ok(readFileSync(icon180).length > 100);
 
-  const screenshotLimbo = join(pkgDir, 'assets', 'screenshot-limbo-problem.jpg');
-  assert.ok(existsSync(screenshotLimbo), 'screenshot-limbo-problem.jpg must exist');
+  const screenshots = [
+    'screenshot-chat-view.jpg',
+    'screenshot-keyboard-open.jpg',
+    'screenshot-sidebar-open.jpg',
+  ];
+  for (const s of screenshots) {
+    const p = join(pkgDir, 'assets', s);
+    assert.ok(existsSync(p), `${s} must exist`);
+    assert.ok(readFileSync(p).length > 1000, `${s} must not be empty`);
+  }
 
-  const screenshotMobile = join(pkgDir, 'assets', 'screenshot-mobile-view.jpg');
-  assert.ok(existsSync(screenshotMobile), 'screenshot-mobile-view.jpg must exist');
+  // screenshots.json manifest
+  const manifestPath = join(pkgDir, 'screenshots.json');
+  assert.ok(existsSync(manifestPath), 'screenshots.json must exist');
+  const declared = JSON.parse(readFileSync(manifestPath, 'utf8'));
+  assert.ok(Array.isArray(declared) && declared.length >= 1);
+  for (const rel of declared) {
+    assert.ok(existsSync(join(pkgDir, rel)), `Declared screenshot must exist: ${rel}`);
+  }
+});
+
+test('dsh-mobile marketplace submission manifest is valid', () => {
+  const specPath = join(pkgDir, 'mdalboni__dsh-mobile.yml');
+  assert.ok(existsSync(specPath), 'mdalboni__dsh-mobile.yml must exist');
+  const content = readFileSync(specPath, 'utf8');
+  assert.match(content, /url:\s*https:\/\/github\.com\/mdalboni\/dsh-mobile/);
+  assert.match(content, /name:\s*mdalboni\/dsh-mobile/);
+  assert.match(content, /category:\s*ui/);
+  assert.match(content, /icon:\s*https:\/\/raw\.githubusercontent\.com/);
 });

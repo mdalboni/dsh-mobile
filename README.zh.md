@@ -4,9 +4,9 @@ DeepSeek Harness (DSH) Web GUI 移动端视口锁定、滚动溢出阻断及虚�
 
 ## 界面预览
 
-| 移动端适配后界面 | 修复前（滚入黑屏空白区域） |
-|:---:|:---:|
-| ![Mobile View](assets/screenshot-mobile-view.jpg) | ![Limbo Problem](assets/screenshot-limbo-problem.jpg) |
+| 移动端会话视图 | 虚拟键盘弹出视图 | 侧边栏展开视图 |
+|:---:|:---:|:---:|
+| ![移动端会话视图](assets/screenshot-chat-view.jpg) | ![虚拟键盘弹出视图](assets/screenshot-keyboard-open.jpg) | ![侧边栏展开视图](assets/screenshot-sidebar-open.jpg) |
 
 ## 功能特性
 
